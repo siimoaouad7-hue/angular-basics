@@ -1,0 +1,17 @@
+.container { max-width: 600px; margin: 40px auto; font-family: Arial, sans-serif; }
+h1 { margin-bottom: 4px; }
+.stats { color: #666; margin-top: 0; }
+.add-form { display: flex; gap: 8px; margin: 20px 0; }
+.add-form input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+button { padding: 8px 12px; border: none; border-radius: 6px; background: #3f51b5; color: white; cursor: pointer; }
+button:hover:not(:disabled) { opacity: 0.85; }
+button:disabled { background: #bdbdbd; cursor: not-allowed; }
+button.danger { background: #e53935; }
+.list { list-style: none; padding: 0; }
+.list li { display: flex; justify-content: space-between; align-items: center;
+           padding: 12px; margin-bottom: 8px; border: 1px solid #eee; border-radius: 8px; }
+.list li.watched strong { text-decoration: line-through; color: #999; }
+.genre { margin-left: 8px; font-size: 0.85em; color: #888; }
+.actions { display: flex; gap: 6px; }
+.empty { color: #999; justify-content: center !important; }
+.clear { width: 100%; }
