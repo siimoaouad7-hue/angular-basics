@@ -1,6 +1,6 @@
 <div class="container">
   <h1>My Movie Watchlist</h1>
-  <p class="stats">{{ watchedCount }} / {{ movies.length }} watched</p>
+  <p class="stats">{{ watchedCount() }} / {{ movies().length }} watched</p>
 
   <form class="add-form" (ngSubmit)="addMovie()">
     <input [(ngModel)]="newTitle" name="title" placeholder="Movie title" />
@@ -9,7 +9,7 @@
   </form>
 
   <ul class="list">
-    @for (movie of movies; track movie.id) {
+    @for (movie of movies(); track movie.id) {
       <li [class.watched]="movie.watched">
         <div>
           <strong>{{ movie.title }}</strong>
@@ -27,7 +27,7 @@
     }
   </ul>
 
-  @if (movies.length > 0) {
+  @if (movies().length > 0) {
     <button class="danger clear" (click)="clearAll()">Clear all</button>
   }
 </div>
