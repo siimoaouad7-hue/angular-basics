@@ -11,16 +11,21 @@ import { Movie } from './movie';
 })
 export class App {
   // signal : la liste des films prévient Angular à chaque changement
-  movies = signal<Movie[]>([
-    { id: 1, title: 'Inception', genre: 'Sci-fi', watched: true },
-    { id: 2, title: 'The Godfather', genre: 'Drama', watched: false }
-  ]);
+  // Au démarrage, on reprend la liste sauvegardée dans le navigateur (s'il y en a une)
+  movies = signal<Movie[]>(this.loadMovies());
 
   newTitle = '';
   newGenre = '';
-  private nextId = 3;
+  // Le prochain id part du plus grand id existant, pour ne jamais avoir deux fois le même
+  private nextId = Math.max(0, ...this.movies().map(m => m.id)) + 1;
 
   constructor() {
+    // effect : side effect, sauvegarde la liste dans le navigateur (localStorage)
+    // pour qu'elle reste après un rafraîchissement de la page
+    effect(() => {
+      localStorage.setItem('movies', JSON.stringify(this.movies()));
+    });
+
     // effect : side effect, envoie la liste à une API à chaque changement
     effect(() => {
       const list = this.movies();
@@ -62,6 +67,18 @@ export class App {
 
   clearAll(): void {
     this.movies.set([]);
+  }
+
+  // Lit la liste sauvegardée ; sinon, renvoie les deux films de départ
+  private loadMovies(): Movie[] {
+    const saved = localStorage.getItem('movies');
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return [
+      { id: 1, title: 'Inception', genre: 'Sci-fi', watched: true },
+      { id: 2, title: 'The Godfather', genre: 'Drama', watched: false }
+    ];
   }
 
   // computed : se recalcule tout seul quand movies change

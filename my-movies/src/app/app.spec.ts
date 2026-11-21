@@ -3,6 +3,7 @@ import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
+    localStorage.clear(); // chaque test repart d'une liste vide de sauvegarde
     await TestBed.configureTestingModule({ imports: [App] }).compileComponents();
   });
 
@@ -16,5 +17,16 @@ describe('App', () => {
     app.newTitle = 'Titanic';
     app.addMovie();
     expect(app.movies().length).toBe(3);
+  });
+
+  it('should keep movies after a page reload', () => {
+    const app = TestBed.createComponent(App).componentInstance;
+    app.newTitle = 'Titanic';
+    app.addMovie();
+    TestBed.tick(); // laisse l'effect sauvegarder dans le localStorage
+
+    // une nouvelle instance = comme si on rafraîchissait la page
+    const reloaded = TestBed.createComponent(App).componentInstance;
+    expect(reloaded.movies().length).toBe(3);
   });
 });
