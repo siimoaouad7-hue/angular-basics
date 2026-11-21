@@ -15,6 +15,6 @@ describe('App', () => {
     const app = TestBed.createComponent(App).componentInstance;
     app.newTitle = 'Titanic';
     app.addMovie();
-    expect(app.movies.length).toBe(3);
+    expect(app.movies().length).toBe(3);
   });
 });
